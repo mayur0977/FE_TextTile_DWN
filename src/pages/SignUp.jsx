@@ -173,7 +173,7 @@ function SignUp() {
                 </Text>
 
                 <Text className={classes.bannerSubText}>
-                  Cloth Material Management
+                  TextTile Management
                 </Text>
               </Box>
             </Grid.Col>
