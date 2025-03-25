@@ -1,37 +1,29 @@
 import {
+  Badge,
   Box,
   Button,
+  Card,
+  Divider,
   Flex,
   Group,
   LoadingOverlay,
   ScrollArea,
-  Table,
-  createStyles,
-  Card,
-  Image,
-  Text,
   SimpleGrid,
-  Badge,
-  Switch,
-  Divider,
   Stack,
+  Switch,
+  Text,
   Title,
-  Grid,
   Tooltip,
+  createStyles,
 } from "@mantine/core";
 
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { showNotification } from "@mantine/notifications";
-import {
-  IconCircleCheckFilled,
-  IconPencil,
-  IconPlus,
-  IconTrash,
-} from "@tabler/icons-react";
-import SupplierForm from "components/SupplierForm";
+import { IconPlus } from "@tabler/icons-react";
+import ProductAddEditForm from "components/ProductAddEditForm";
+
 import { AuthContext } from "core/context";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import productService from "services/product.service";
 
 /**
@@ -257,7 +249,7 @@ function ManufacturerDashboard() {
           </Button>
         </Flex>
 
-        <SupplierForm
+        <ProductAddEditForm
           close={close}
           opened={opened}
           formSubmitted={handleSupplierFormSubmit}
