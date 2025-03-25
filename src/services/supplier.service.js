@@ -10,7 +10,7 @@ const updateMaterialItem = (values, itemId) => {
   );
 };
 const getAllMaterialItems = () => {
-  return axios.get("http://127.0.0.1:3001/api/v1/materialItems");
+  return axios.get("http://127.0.0.1:3001/api/products");
 };
 const getAllMaterialItemsBySupplierId = (supplierId) => {
   return axios.get(

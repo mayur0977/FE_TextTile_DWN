@@ -13,6 +13,7 @@ import { AuthContext } from "core/context";
 import SupplierDashboard from "pages/SupplierDashboard";
 import AuthInterceptor from "services/interceptor";
 import authService from "services/auth.service";
+import ManufacturerDashboard from "pages/ManufaturerDashboard";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     overflow: "hidden",
@@ -34,7 +35,7 @@ function App() {
     const authDataGet = authService.getAuthData();
     if (authDataGet) {
       setAuthData(authDataGet);
-      navigate("/SupplierPage");
+      navigate("/ManufacturerDashboard");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,6 +95,10 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/Signup" element={<SignUp />} />
               <Route path="/SupplierPage" element={<SupplierDashboard />} />
+              <Route
+                path="/ManufacturerDashboard"
+                element={<ManufacturerDashboard />}
+              />
               {/* 👇️ only match this when no other routes match */}
               <Route path="*" element={<PageNotFound />} />
             </Routes>

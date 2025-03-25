@@ -74,7 +74,7 @@ function Login() {
         authService.setAuthData(res.data);
         setAuthData(res.data);
         setLoading(false);
-        navigate("/SupplierPage");
+        navigate("/ManufacturerDashboard");
       })
       .catch((error) => {
         setLoading(false);
