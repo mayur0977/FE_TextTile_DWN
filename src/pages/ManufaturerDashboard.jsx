@@ -11,6 +11,13 @@ import {
   Image,
   Text,
   SimpleGrid,
+  Badge,
+  Switch,
+  Divider,
+  Stack,
+  Title,
+  Grid,
+  Tooltip,
 } from "@mantine/core";
 
 import { useDisclosure } from "@mantine/hooks";
@@ -138,11 +145,12 @@ const useStyles = createStyles((theme) => ({
     borderBottomColor: theme.colors.gray[3],
   },
 }));
+
 function ManufacturerDashboard() {
   const { classes, cx } = useStyles();
   const { authData } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
-  const [materialItemList, setMaterialItemList] = useState([]);
+  const [productItemList, setProductItemList] = useState([]);
   const [editItemId, setItemEditId] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -213,7 +221,7 @@ function ManufacturerDashboard() {
           console.log("res", res);
 
           if (res.data) {
-            // setMaterialItemList(res.data.materialItems);
+            setProductItemList(res.data);
           }
         })
         .catch((error) => {
@@ -272,34 +280,99 @@ function ManufacturerDashboard() {
             spacing="lg"
             breakpoints={[{ maxWidth: "md", cols: 1 }]}
           >
-            {[1, 2, 3].map((item) => (
-              <Card key={item} shadow="sm" padding="lg" radius="md" withBorder>
-                <Card.Section>
-                  <Image
-                    src="https://source.unsplash.com/random/800x400"
-                    height={160}
-                    alt="Random Unsplash"
-                  />
-                </Card.Section>
+            {productItemList.map((item) => (
+              <Card shadow="md" padding="lg" radius="md" withBorder>
+                <Stack spacing="md">
+                  {/* <Image
+                    src={fabricData.image_url}
+                    height={200}
+                    fit="cover"
+                    alt={fabricData.name}
+                    radius="md"
+                  /> */}
 
-                <Text weight={500} size="lg" mt="md">
-                  Card Title {item}
-                </Text>
+                  <Group position="apart">
+                    <Title order={3}>{item.name}</Title>
+                    <Badge color="pink" variant="light">
+                      {item.category}
+                    </Badge>
+                  </Group>
 
-                <Text size="sm" color="dimmed" mt="xs">
-                  Some description for card {item}. This is placeholder text to
-                  fill the space.
-                </Text>
+                  <Text color="dimmed" size="sm">
+                    {item.description}
+                  </Text>
 
-                <Button
-                  variant="light"
-                  color="blue"
-                  fullWidth
-                  mt="md"
-                  radius="md"
-                >
-                  Action
-                </Button>
+                  <Group spacing="xs" mt="xs">
+                    {item.suitable_for.map((tag) => (
+                      <Badge key={tag} color="blue" variant="light">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </Group>
+
+                  <Stack spacing={4} mt="sm">
+                    <Text size="sm">
+                      <b>Brand:</b> {item.brand}
+                    </Text>
+                    <Text size="sm">
+                      <b>Color:</b> {item.color}
+                    </Text>
+                    <Text size="sm">
+                      <b>Pattern:</b> {item.pattern}
+                    </Text>
+                    <Text size="sm">
+                      <b>Texture:</b> {item.texture}
+                    </Text>
+                    <Text size="sm">
+                      <b>Composition:</b> {item.composition}
+                    </Text>
+                    <Text size="sm">
+                      <b>Care:</b> {item.care_instructions}
+                    </Text>
+                    <Text size="sm">
+                      <b>Origin:</b> {item.origin}
+                    </Text>
+                    <Text size="sm">
+                      <b>Price:</b> ${item.price}/{item.unit}
+                    </Text>
+                    <Text size="sm">
+                      <b>Stock:</b> {item.stock_quantity} units
+                    </Text>
+                    <Text size="sm">
+                      <b>Weight:</b> {item.weight} kg
+                    </Text>
+                    <Text size="sm">
+                      <b>Dimensions:</b> {item.dimensions.length} x{" "}
+                      {item.dimensions.width} cm
+                    </Text>
+                    <Text size="sm">
+                      <b>Sustainability:</b> {item.sustainability_rating}
+                    </Text>
+                  </Stack>
+
+                  <Group spacing="lg" mt="md">
+                    <Tooltip label="Is the fabric fire-retardant?" withArrow>
+                      <Switch
+                        label="Fire Retardant"
+                        checked={item.fire_retardant}
+                        readOnly
+                      />
+                    </Tooltip>
+                    <Tooltip label="Is the fabric water-resistant?" withArrow>
+                      <Switch
+                        label="Water Resistant"
+                        checked={item.water_resistant}
+                        readOnly
+                      />
+                    </Tooltip>
+                  </Group>
+
+                  <Divider my="sm" />
+
+                  <Button fullWidth variant="light" color="teal">
+                    Order Now
+                  </Button>
+                </Stack>
               </Card>
             ))}
           </SimpleGrid>
