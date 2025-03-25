@@ -6,9 +6,13 @@ import {
   LoadingOverlay,
   ScrollArea,
   Table,
-  Text,
   createStyles,
+  Card,
+  Image,
+  Text,
+  SimpleGrid,
 } from "@mantine/core";
+
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
@@ -209,7 +213,7 @@ function ManufacturerDashboard() {
           console.log("res", res);
 
           if (res.data) {
-            setMaterialItemList(res.data.materialItems);
+            // setMaterialItemList(res.data.materialItems);
           }
         })
         .catch((error) => {
@@ -263,87 +267,42 @@ function ManufacturerDashboard() {
       >
         <ScrollArea px="lg" style={{ height: "100%" }} type="auto">
           <LoadingOverlay visible={loading} overlayBlur={6} />
-          <Table
-            className={classes.tableContainer}
-            withBorder={false}
-            withColumnBorders={false}
+          <SimpleGrid
+            cols={3}
+            spacing="lg"
+            breakpoints={[{ maxWidth: "md", cols: 1 }]}
           >
-            <thead className={cx(classes.header)}>
-              <tr>
-                <th>ITEM NAME</th>
-                <th>DESCRIPTION</th>
-                <th>MATERIAL TYPE</th>
-                <th>QUANTITY (in meters)</th>
-                <th>PRICE (per meter)</th>
-                <th>
-                  {" "}
-                  <span />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {materialItemList.length === 0 && (
-                <tr>
-                  <td colSpan={6}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontWeight: 600,
-                          fontSize: "1.25rem",
-                          lineHeight: "1.75rem",
-                        }}
-                      >
-                        No records available.
-                      </Text>
-                    </div>
-                  </td>
-                </tr>
-              )}
-              {materialItemList &&
-                materialItemList.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.itemName}</td>
-                    <td>{item.description}</td>
-                    <td>{item.materialType}</td>
-                    <td>{item.quantityInMeters}</td>
-                    <td>{item.price}</td>
-                    <td
-                      style={{
-                        fontWeight: 600,
-                        backgroundColor: "white",
-                        position: "sticky",
-                        padding: "0.75rem",
-                        cursor: "pointer",
-                        right: "-0.5rem",
-                      }}
-                    >
-                      <IconPencil
-                        size={18}
-                        color="green"
-                        style={{ marginRight: "18px" }}
-                        onClick={() => {
-                          open();
-                          setItemEditId(item._id);
-                        }}
-                      />
-                      <IconTrash
-                        size={18}
-                        color="red"
-                        onClick={() => {
-                          openDeleteModal(item._id, item.itemName);
-                        }}
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
+            {[1, 2, 3].map((item) => (
+              <Card key={item} shadow="sm" padding="lg" radius="md" withBorder>
+                <Card.Section>
+                  <Image
+                    src="https://source.unsplash.com/random/800x400"
+                    height={160}
+                    alt="Random Unsplash"
+                  />
+                </Card.Section>
+
+                <Text weight={500} size="lg" mt="md">
+                  Card Title {item}
+                </Text>
+
+                <Text size="sm" color="dimmed" mt="xs">
+                  Some description for card {item}. This is placeholder text to
+                  fill the space.
+                </Text>
+
+                <Button
+                  variant="light"
+                  color="blue"
+                  fullWidth
+                  mt="md"
+                  radius="md"
+                >
+                  Action
+                </Button>
+              </Card>
+            ))}
+          </SimpleGrid>
         </ScrollArea>
       </Box>
     </>
