@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const addMaterialItem = (values) => {
-  return axios.post("http://127.0.0.1:3001/api/v1/materialItems", values);
+const addProduct = (values) => {
+  return axios.post("http://127.0.0.1:5000/api/products", values);
 };
 const updateMaterialItem = (values, itemId) => {
   return axios.patch(
@@ -26,7 +26,7 @@ const deleteMaterialItem = (itemId) => {
 };
 
 const productService = {
-  addMaterialItem,
+  addProduct,
   updateMaterialItem,
   getAllProducts,
   getAllMaterialItemsBySupplierId,

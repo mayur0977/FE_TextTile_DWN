@@ -1,11 +1,9 @@
 import {
   Box,
   Button,
+  Divider,
   Drawer,
-  Grid,
   Group,
-  Image,
-  LoadingOverlay,
   MultiSelect,
   NumberInput,
   ScrollArea,
@@ -14,7 +12,6 @@ import {
   Switch,
   TextInput,
   Textarea,
-  Divider,
   createStyles,
 } from "@mantine/core";
 
@@ -24,6 +21,7 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { AuthContext } from "core/context";
+import productService from "services/product.service";
 import supplierService from "services/supplier.service";
 
 /**
@@ -61,14 +59,14 @@ import supplierService from "services/supplier.service";
 const useStyles = createStyles(() => ({}));
 
 const initialData = {
-  name: "Spandex Fabric",
+  name: "Edit Name Spandex Fabric",
   description: "Stretchable spandex fabric, ideal for activewear and sports.",
   category: "Spandex",
   brand: "Sporty Fabrics",
   color: "Red",
   price: 4.99,
   unit: "yard",
-  image_url: "http://example.com/images/spandex_fabric.jpg",
+
   stock_quantity: 600,
   weight: 0.05,
   dimensions: { length: 180, width: 60 },
@@ -81,6 +79,7 @@ const initialData = {
   fire_retardant: false,
   water_resistant: true,
   pattern: "Solid",
+  tags: ["activewear", "athletic clothing"],
 };
 
 function ProductAddEditForm(props) {
@@ -96,17 +95,10 @@ function ProductAddEditForm(props) {
   const handleSupplierFormSubmit = (values) => {
     if (authData) {
       setLoading(true);
-
+      console.log("values", values);
       if (editItemId === null) {
-        supplierService
-          .addMaterialItem({
-            itemName: values.itemName,
-            description: values.description,
-            materialType: values.materialType,
-            quantityInMeters: +values.quantityInMeters,
-            price: +values.price,
-            supplierId: authData.userId,
-          })
+        productService
+          .addProduct(values)
           .then((res) => {
             if (res.data.status === "success") {
               setTimeout(() => {
@@ -305,6 +297,18 @@ function ProductAddEditForm(props) {
                   })}
                 />
               </Group>
+              <MultiSelect
+                label="Tags"
+                data={[
+                  "SILK",
+                  "athletic clothing",
+                  "swimwear",
+                  "casual wear",
+                  "COTTON",
+                ]}
+                placeholder="Select suitable TAGS"
+                {...form.getInputProps("TAGS")}
+              />
               <Box h={80} /> {/* Spacer for sticky button */}
             </Stack>
           </ScrollArea>
